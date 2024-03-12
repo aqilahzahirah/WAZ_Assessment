@@ -12,8 +12,8 @@ using WAZ_Assessment;
 namespace WAZ_Assessment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240312024258_newCreate")]
-    partial class newCreate
+    [Migration("20240312045058_tablesCreate")]
+    partial class tablesCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,7 +107,7 @@ namespace WAZ_Assessment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime?>("createdAt")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<double?>("latitude")
@@ -123,7 +123,7 @@ namespace WAZ_Assessment.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("updatedAt")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
@@ -175,11 +175,13 @@ namespace WAZ_Assessment.Migrations
 
             modelBuilder.Entity("WAZ_Assessment.Models.Well", b =>
                 {
-                    b.HasOne("WAZ_Assessment.Models.Platform", null)
+                    b.HasOne("WAZ_Assessment.Models.Platform", "Platform")
                         .WithMany("well")
                         .HasForeignKey("platformId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Platform");
                 });
 
             modelBuilder.Entity("WAZ_Assessment.Models.Platform", b =>

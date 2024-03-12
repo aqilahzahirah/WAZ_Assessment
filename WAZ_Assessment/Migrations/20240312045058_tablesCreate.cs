@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WAZ_Assessment.Migrations
 {
     /// <inheritdoc />
-    public partial class newCreate : Migration
+    public partial class tablesCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,8 +27,7 @@ namespace WAZ_Assessment.Migrations
                 name: "Platform",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     uniqueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     latitude = table.Column<double>(type: "float", nullable: true),
                     longitude = table.Column<double>(type: "float", nullable: true),
@@ -44,8 +43,7 @@ namespace WAZ_Assessment.Migrations
                 name: "WellDummy",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     platformId = table.Column<int>(type: "int", nullable: false),
                     uniqueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     latitude = table.Column<double>(type: "float", nullable: false),
@@ -61,14 +59,13 @@ namespace WAZ_Assessment.Migrations
                 name: "Well",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     platformId = table.Column<int>(type: "int", nullable: false),
                     uniqueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     latitude = table.Column<double>(type: "float", nullable: true),
                     longitude = table.Column<double>(type: "float", nullable: true),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,8 +82,7 @@ namespace WAZ_Assessment.Migrations
                 name: "PlatformDummy",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     uniqueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     latitude = table.Column<double>(type: "float", nullable: false),
                     longitude = table.Column<double>(type: "float", nullable: false),

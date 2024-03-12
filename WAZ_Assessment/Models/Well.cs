@@ -12,7 +12,10 @@ namespace WAZ_Assessment.Models
         public string uniqueName { get; set; }
         public double? latitude { get; set; }
         public double? longitude { get; set; }
-        public DateTime? createdAt { get; set; }
-        public DateTime? updatedAt { get; set; }
+        public DateTime createdAt { get; set; }
+        public DateTime updatedAt { get; set; }
+
+        [ForeignKey("platformId")]
+        public virtual Platform Platform { get; set; }
     }
 }

@@ -39,12 +39,13 @@ namespace WAZ_Assessment.Controllers
 
                     foreach (var platform in platforms)
                     {
-                        var currPF = await _context.Platform.FirstOrDefaultAsync();
-
+                        var currPF = await _context.Platform.FindAsync(platform.id);
+                        
                         if (currPF == null)
                         {
                             var newPF = new Platform
                             {
+                                id = platform.id,
                                 uniqueName = platform.uniqueName,
                                 latitude = platform.latitude,
                                 longitude = platform.longitude,
@@ -57,29 +58,25 @@ namespace WAZ_Assessment.Controllers
 
                         else
                         {
-                            var newPF = new Platform
-                            {
-                                uniqueName = platform.uniqueName,
-                                latitude = platform.latitude,
-                                longitude = platform.longitude,
-                                createdAt = platform.createdAt,
-                                updatedAt = platform.updatedAt
-                            };
+                            currPF.uniqueName = platform.uniqueName;
+                            currPF.latitude = platform.latitude;
+                            currPF.longitude = platform.longitude;
+                            currPF.createdAt = platform.createdAt;
+                            currPF.updatedAt = platform.updatedAt;
 
-                            _context.Platform.Update(newPF);
+                            _context.Platform.Update(currPF);
                         }
-                        
-                        await _context.SaveChangesAsync();
 
                         foreach (var well in platform.well)
                         {
-                            var currWell = await _context.Well.FirstOrDefaultAsync();
+                            var currWell = await _context.Well.FindAsync(well.id);
 
-                            if(currWell == null)
+                            if (currWell == null)
                             {
                                 var newWell = new Well
                                 {
-                                    platformId = well.platformId,
+                                    id = well.id,
+                                    platformId = platform.id,
                                     uniqueName = well.uniqueName,
                                     latitude = well.latitude,
                                     longitude = well.longitude,
@@ -92,17 +89,14 @@ namespace WAZ_Assessment.Controllers
 
                             else
                             {
-                                var newWell = new Well
-                                {
-                                    platformId = well.platformId,
-                                    uniqueName = well.uniqueName,
-                                    latitude = well.latitude,
-                                    longitude = well.longitude,
-                                    createdAt = well.createdAt,
-                                    updatedAt = well.updatedAt
-                                };
+                                currWell.platformId = platform.id;
+                                currWell.uniqueName = well.uniqueName;
+                                currWell.latitude = well.latitude;
+                                currWell.longitude = well.longitude;
+                                currWell.createdAt = well.createdAt;
+                                currWell.updatedAt = well.updatedAt;
 
-                                _context.Well.Update(newWell);
+                                _context.Well.Update(currWell);
                             }
                         }
                     }
