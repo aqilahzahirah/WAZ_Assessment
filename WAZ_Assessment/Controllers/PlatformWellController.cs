@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text.Json;
 using WAZ_Assessment.Models;
@@ -38,32 +39,71 @@ namespace WAZ_Assessment.Controllers
 
                     foreach (var platform in platforms)
                     {
-                        var newPF = new Platform
-                        {
-                            uniqueName = platform.uniqueName,
-                            latitude = platform.latitude,
-                            longitude = platform.longitude,
-                            createdAt = platform.createdAt,
-                            updatedAt = platform.updatedAt
-                        };
+                        var currPF = await _context.Platform.FirstOrDefaultAsync();
 
-                        _context.Platform.Add(newPF);
+                        if (currPF == null)
+                        {
+                            var newPF = new Platform
+                            {
+                                uniqueName = platform.uniqueName,
+                                latitude = platform.latitude,
+                                longitude = platform.longitude,
+                                createdAt = platform.createdAt,
+                                updatedAt = platform.updatedAt
+                            };
+
+                            _context.Platform.Add(newPF);
+                        }
+
+                        else
+                        {
+                            var newPF = new Platform
+                            {
+                                uniqueName = platform.uniqueName,
+                                latitude = platform.latitude,
+                                longitude = platform.longitude,
+                                createdAt = platform.createdAt,
+                                updatedAt = platform.updatedAt
+                            };
+
+                            _context.Platform.Update(newPF);
+                        }
+                        
                         await _context.SaveChangesAsync();
 
                         foreach (var well in platform.well)
                         {
-                            var newWell = new Well
-                            {
-                                platformId = well.platformId,
-                                uniqueName = well.uniqueName,
-                                latitude = well.latitude,
-                                longitude = well.longitude,
-                                createdAt = well.createdAt,
-                                updatedAt = well.updatedAt
-                            };
-                            
+                            var currWell = await _context.Well.FirstOrDefaultAsync();
 
-                            _context.Well.Add(newWell);
+                            if(currWell == null)
+                            {
+                                var newWell = new Well
+                                {
+                                    platformId = well.platformId,
+                                    uniqueName = well.uniqueName,
+                                    latitude = well.latitude,
+                                    longitude = well.longitude,
+                                    createdAt = well.createdAt,
+                                    updatedAt = well.updatedAt
+                                };
+
+                                _context.Well.Add(newWell);
+                            }
+
+                            else
+                            {
+                                var newWell = new Well
+                                {
+                                    platformId = well.platformId,
+                                    uniqueName = well.uniqueName,
+                                    latitude = well.latitude,
+                                    longitude = well.longitude,
+                                    createdAt = well.createdAt,
+                                    updatedAt = well.updatedAt
+                                };
+
+                                _context.Well.Update(newWell);
+                            }
                         }
                     }
 
