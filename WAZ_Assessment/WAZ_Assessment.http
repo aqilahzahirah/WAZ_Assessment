@@ -1,0 +1,6 @@
+@WAZ_Assessment_HostAddress = http://localhost:5264
+
+GET {{WAZ_Assessment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
